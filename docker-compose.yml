@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  chat-app:
+    image: pm2makeq/mcp-rag-chat-app
+    container_name: mcp-rag-chat-app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      # 호스트의 .env 파일을 컨테이너 /app/.env 로 마운트
+      - ./.env:/app/.env:ro
