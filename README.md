@@ -1,77 +1,47 @@
-# PostgreSQL
+# Chatbot REST API
 
-A Model Context Protocol server that provides read-only access to PostgreSQL databases. This server enables LLMs to inspect database schemas and execute read-only queries.
+이 프로젝트는 Express.js와 TypeScript를 사용하여 구축된 간단한 RESTful API 서버로, 클라이언트로부터의 요청을 처리하고 응답을 반환하는 기능을 제공합니다.
 
-## Components
+## 📁 프로젝트 구조
 
-### Tools
+- `index.ts`: Express 서버의 진입점으로, 라우팅 및 요청 처리를 담당합니다.
+- `Dockerfile`: Docker 이미지를 빌드하기 위한 설정 파일입니다.
+- `docker-compose.yml`: Docker 컨테이너를 구성하는 파일입니다.
+- `package.json`: 프로젝트의 메타데이터 및 의존성 정보를 포함합니다.
+- `tsconfig.json`: TypeScript 컴파일러 설정 파일입니다.
 
-- **query**
-  - Execute read-only SQL queries against the connected database
-  - Input: `sql` (string): The SQL query to execute
-  - All queries are executed within a READ ONLY transaction
+## ✅ 주요 기능
 
-### Resources
+- Express.js를 활용한 RESTful API 서버 구현
+- 클라이언트로부터의 POST 요청을 처리하고, 요청 본문(message)을 기반으로 OpenAI 응답 반환
+- TypeScript를 사용하여 정적 타입 검사 및 코드 품질 향상
 
-The server provides schema information for each table in the database:
+## ⚙️ 설치 및 실행
 
-- **Table Schemas** (`postgres://<host>/<table>/schema`)
-  - JSON schema information for each table
-  - Includes column names and data types
-  - Automatically discovered from database metadata
+1. 레포지토리 클론:
+   ```bash
+   git clone https://github.com/pm2makeq/chatbot_restapi.git
+   cd chatbot_restapi
+   ```
 
-## Usage with Claude Desktop
+2. 의존성 설치:
+   ```bash
+   npm install
+   ```
 
-To use this server with the Claude Desktop app, add the following configuration to the "mcpServers" section of your `claude_desktop_config.json`:
+3. OpenAI API 키 설정:
+   `.env` 파일을 생성하고 다음 내용을 추가합니다.
+   ```env
+     GEMINI_API_KEY=본인의 제미나이 API KEY
+     DATA_BASE_URL=postgresql://id:pw@0.0.0.0:port/database
+   ```
 
-### Docker
+4. 서버 실행:
+   ```bash
+  run_srv.bat
+   ```
 
-* when running docker on macos, use host.docker.internal if the server is running on the host network (eg localhost)
-* username/password can be added to the postgresql url with `postgresql://user:password@host:port/db-name`
 
-```json
-{
-  "mcpServers": {
-    "postgres": {
-      "command": "docker",
-      "args": [
-        "run", 
-        "-i", 
-        "--rm", 
-        "mcp/postgres", 
-        "postgresql://host.docker.internal:5432/mydb"]
-    }
-  }
-}
-```
+## 📄 라이선스
 
-### NPX
-
-```json
-{
-  "mcpServers": {
-    "postgres": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://localhost/mydb"
-      ]
-    }
-  }
-}
-```
-
-Replace `/mydb` with your database name.
-
-## Building
-
-Docker:
-
-```sh
-docker build -t mcp/postgres -f src/postgres/Dockerfile . 
-```
-
-## License
-
-This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
+이 프로젝트는 MIT 라이선스를 따릅니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
